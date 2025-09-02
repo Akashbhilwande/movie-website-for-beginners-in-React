@@ -16,15 +16,21 @@ export default function HomePage() {
   const [page, setPage] = useState(1);
   const [totalResults, setTotalResults] = useState(0);
 
+  // filters
+  const [type, setType] = useState(""); // "movie", "series", "episode"
+  const [year, setYear] = useState(""); // e.g. 2023
+
   const searchMovies = async (newPage = 1) => {
     if (!query) return;
     setLoading(true);
     setError("");
 
     try {
-      const res = await fetch(
-        `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}&page=${newPage}`
-      );
+      let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=${query}&page=${newPage}`;
+      if (type) url += `&type=${type}`;
+      if (year) url += `&y=${year}`;
+
+      const res = await fetch(url);
       const data = await res.json();
 
       if (data.Response === "True") {
@@ -56,8 +62,39 @@ export default function HomePage() {
   };
 
   useEffect(() => {
-    const savedFavorites = JSON.parse(localStorage.getItem("favorites")) || [];
-    setFavorites(savedFavorites);
+    const fetchDefaultMovies = async () => {
+      setLoading(true);
+      try {
+        // Example: Fetch movies from current year
+        const currentYear = new Date().getFullYear();
+        let url = `https://www.omdbapi.com/?apikey=${API_KEY}&s=movie&y=${currentYear}&page=1`;
+
+        const res = await fetch(url);
+        const data = await res.json();
+
+        if (data.Response === "True") {
+          setMovies(data.Search);
+          setTotalResults(parseInt(data.totalResults, 10));
+          setPage(1);
+        } else {
+          // fallback: show some predefined movies if no results
+          let fallbackUrl = `https://www.omdbapi.com/?apikey=${API_KEY}&s=avengers&page=1`;
+          const res2 = await fetch(fallbackUrl);
+          const data2 = await res2.json();
+          if (data2.Response === "True") {
+            setMovies(data2.Search);
+            setTotalResults(parseInt(data2.totalResults, 10));
+            setPage(1);
+          }
+        }
+      } catch (err) {
+        setError("Could not load default movies");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchDefaultMovies();
   }, []);
 
   const isFavorite = (movie) =>
@@ -110,6 +147,25 @@ export default function HomePage() {
             onChange={(e) => setQuery(e.target.value)}
           />
           <button onClick={() => searchMovies(1)}>Search</button>
+        </div>
+
+        {/* Filters */}
+        <div className="filters">
+          <select value={type} onChange={(e) => setType(e.target.value)}>
+            <option value="">All Types</option>
+            <option value="movie">Movies</option>
+            <option value="series">Series</option>
+            <option value="episode">Episodes</option>
+          </select>
+
+          <input
+            type="number"
+            placeholder="Year"
+            value={year}
+            onChange={(e) => setYear(e.target.value)}
+          />
+
+          <button onClick={() => searchMovies(1)}>Apply Filters</button>
         </div>
 
         {loading && <div className="loader">Loading...</div>}

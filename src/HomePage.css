@@ -239,7 +239,6 @@ body, html, .homepage {
 
 
 .movie-details {
-  margin: 2rem auto;
   padding: 2rem;
   background: #1a1a1a;
   color: #fff;
@@ -260,7 +259,7 @@ body, html, .homepage {
 .movie-details h1 {
   font-size: 2rem;
   margin-bottom: 1rem;
-  color: #ffcc00;
+  color: #48d4ff;
 }
 
 .movie-details p {
@@ -271,13 +270,13 @@ body, html, .homepage {
 }
 
 .movie-details strong {
-  color: #ffcc00;
+  color: #48d4ff;
 }
 
 .back-btn {
   background: transparent;
-  border: 2px solid #ffcc00;
-  color: #ffcc00;
+  border: 2px solid #48d4ff;
+  color: #48d4ff;
   font-size: 1rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -287,7 +286,7 @@ body, html, .homepage {
 }
 
 .back-btn:hover {
-  background: #ffcc00;
+  background: #48d4ff;
   color: #1a1a1a;
 }
 
@@ -313,4 +312,45 @@ body, html, .homepage {
 .pagination button:disabled {
   background: #444;
   cursor: not-allowed;
+}
+
+
+/* Filters Section */
+.filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 15px 0;
+  justify-content: center;
+}
+
+.filters select,
+.filters input,
+.filters button {
+  padding: 8px 12px;
+  border-radius: 8px;
+  border: 1px solid #444;
+  background-color: #1a1a1a;
+  color: #fff;
+  font-size: 14px;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.filters select:focus,
+.filters input:focus {
+  border-color: #48d4ff;
+  background-color: #2a2a2a;
+}
+
+.filters button {
+  cursor: pointer;
+  border: none;
+  background-color: #48d4ff;
+  color: #000;
+  font-weight: bold;
+}
+
+.filters button:hover {
+  background-color: #36a2ff;
 }
