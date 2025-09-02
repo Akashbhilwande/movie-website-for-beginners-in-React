@@ -3,10 +3,6 @@
 A sleek React app to search movies via the OMDb API, view rich details, and save personal favorites — complete with pagination, a sidebar-driven layout, and a dark, responsive UI.
 
 <p align="center">
-  <h1>MOVIE EXPLORER</h1>
-</p>
-
-<p align="center">
   <a href="#-features"><img alt="features" src="https://img.shields.io/badge/Features-Complete-blue"/></a>
   <a href="#-tech-stack"><img alt="tech" src="https://img.shields.io/badge/Stack-React%20%7C%20Router%20%7C%20CSS-green"/></a>
 </p>
